@@ -1,0 +1,23 @@
+{
+    "Periods": 
+    [
+        {
+            "Id": 1,
+            "Name": "Daily" 
+        },
+        {
+            "Id": 2,
+            "Name": "Weekly" 
+        },
+        {
+            "Id": 3,
+            "Name": "Mothly" 
+        
+        },
+        {
+            "Id": 4,
+            "Name": "Yearly" 
+        
+        }
+    ]
+}
