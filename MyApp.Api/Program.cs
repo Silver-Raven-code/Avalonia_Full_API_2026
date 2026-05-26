@@ -1,3 +1,6 @@
+using System.Runtime.CompilerServices;
+using System.Text.Json;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add Swagger
@@ -23,19 +26,18 @@ app.UseCors("AllowAll");
 app.UseSwagger();
 app.UseSwaggerUI();
 
-var periods = new List<PeriodItem>
-{
-    new PeriodItem { Id = 1, Name = "Daily" },
-    new PeriodItem { Id = 2, Name = "Weekly" },
-    new PeriodItem { Id = 3, Name = "Monthly" },
-    new PeriodItem { Id = 4, Name = "Yearly" }
-};
+
+var periodsJson = File.ReadAllText("Periods.json");
+
+List<PeriodItem> periods = [.. JsonSerializer.Deserialize<List<PeriodItem>>(periodsJson)];
+
+
 
 // GET all
 app.MapGet("/api/periods", () =>
-{
-    return Results.Ok(periods);
-});
+        {
+            return Results.Ok(periods);
+        });
 
 // GET by id
 app.MapGet("/api/periods/{id:int}", (int id) =>

@@ -4,6 +4,9 @@ using System.Collections.ObjectModel;
 using System.Net.Http;
 using System.Net.Http.Json;
 using CommunityToolkit.Mvvm.ComponentModel;
+using System.Text.Json;
+using System.IO;
+
 
 namespace MyApp.ViewModels;
 
@@ -19,15 +22,23 @@ public partial class MainWindowViewModel : ViewModelBase
         LoadData();
     }
 
-    private async void LoadData()
+    private void LoadData()
     {
         try
         {
-            using var client = new HttpClient();
+            var periodsJson = File.ReadAllText(@"C:\Users\darkz\Documents\GitHub\Avalonia_Full_API_2026\MyApp\Periods.json");       //client = new HttpClient();
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+            List<PeriodItem> data = [.. JsonSerializer.Deserialize<List<PeriodItem>?>(periodsJson)];
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
-            var data = await client.GetFromJsonAsync<List<PeriodItem>>(
-                "http://localhost:5000/api/periods");
+            /*
+            var periodsJson = File.ReadAllText("Periods.json");
 
+            List<PeriodItem> periods = [.. JsonSerializer.Deserialize<List<PeriodItem>>(periodsJson)];
+
+                        var data = await client.GetFromJsonAsync<List<PeriodItem>>(
+                            "http://localhost:5000/api/periods");
+            */
             if (data == null)
                 return;
 
